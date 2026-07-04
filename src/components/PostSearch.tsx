@@ -1,0 +1,132 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
+
+interface PostMeta {
+  slug: string;
+  title: string;
+  date: string;
+  category: string;
+  tags: string[];
+  excerpt: string;
+}
+
+export default function PostSearch({ posts }: { posts: PostMeta[] }) {
+  const [query, setQuery] = useState("");
+
+  const q = query.toLowerCase().trim();
+  const filtered = q
+    ? posts.filter(
+        (post) =>
+          post.title.toLowerCase().includes(q) ||
+          post.excerpt.toLowerCase().includes(q) ||
+          post.tags.some((tag) => tag.toLowerCase().includes(q)) ||
+          post.category.toLowerCase().includes(q)
+      )
+    : posts;
+
+  return (
+    <>
+      {/* Search input */}
+      <div className="relative mb-8">
+        <svg
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          type="text"
+          placeholder="제목, 내용, 태그, 카테고리로 검색..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="w-full rounded-xl border border-zinc-200 bg-white py-3 pl-11 pr-4 text-sm text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-100"
+        />
+        {query && (
+          <button
+            onClick={() => setQuery("")}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 transition hover:text-zinc-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        )}
+      </div>
+
+      {/* Result count */}
+      {q && (
+        <p className="mb-6 text-sm text-zinc-500">
+          {filtered.length}개의 검색 결과
+        </p>
+      )}
+
+      {/* Post list */}
+      <div className="grid gap-6 md:grid-cols-2">
+        {filtered.map((post) => (
+          <Link key={post.slug} href={`/posts/${post.slug}`} className="group block">
+            <article className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+              <div className="mb-3 flex items-center gap-3 text-sm text-zinc-500">
+                <time dateTime={post.date}>
+                  {format(new Date(post.date), "yyyy년 M월 d일", { locale: ko })}
+                </time>
+                <span className="text-zinc-300">·</span>
+                <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600">
+                  {post.category}
+                </span>
+              </div>
+
+              <h2 className="mb-2 text-lg font-semibold text-zinc-900 transition-colors group-hover:text-blue-600">
+                {post.title}
+              </h2>
+
+              <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-zinc-600">
+                {post.excerpt}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </article>
+          </Link>
+        ))}
+      </div>
+
+      {filtered.length === 0 && (
+        <p className="py-12 text-center text-zinc-400">
+          검색 결과가 없습니다.
+        </p>
+      )}
+    </>
+  );
+}
