@@ -22,7 +22,7 @@ Computer Methods and Programs in Biomedicine
 2014
 
 **DOI**  
-(추가 예정)
+[10.1016/j.cmpb.2013.12.024](https://doi.org/10.1016/j.cmpb.2013.12.024)
 
 ---
 
