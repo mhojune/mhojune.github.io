@@ -3,6 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 
 const postsDirectory = path.join(process.cwd(), "src/content/posts");
+const CONTENT_FILES = ["index.md", "contents.md"];
 
 export interface PostMeta {
   slug: string;
@@ -17,36 +18,71 @@ export interface Post extends PostMeta {
   content: string;
 }
 
+function getPostSlugs(): string[] {
+  if (!fs.existsSync(postsDirectory)) return [];
+
+  return fs
+    .readdirSync(postsDirectory, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .filter((slug) => getPostContentPath(slug) !== null);
+}
+
+function getPostContentPath(slug: string): string | null {
+  const dir = path.join(postsDirectory, slug);
+
+  for (const file of CONTENT_FILES) {
+    const fullPath = path.join(dir, file);
+    if (fs.existsSync(fullPath)) return fullPath;
+  }
+
+  return null;
+}
+
+function parsePostMeta(slug: string): PostMeta | null {
+  const contentPath = getPostContentPath(slug);
+  if (!contentPath) return null;
+
+  const fileContents = fs.readFileSync(contentPath, "utf-8");
+  const { data } = matter(fileContents);
+
+  return {
+    slug,
+    title: data.title,
+    date: data.date,
+    category: data.category,
+    tags: data.tags || [],
+    excerpt: data.excerpt || "",
+  };
+}
+
+export function resolvePostAsset(slug: string, src: string): string {
+  if (!src) return "";
+  if (/^(https?:)?\/\//.test(src) || src.startsWith("/")) return src;
+
+  const normalized = src.replace(/^\.\//, "");
+  const encodedPath = normalized
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+
+  return `/posts/${encodeURIComponent(slug)}/${encodedPath}`;
+}
+
 export function getAllPosts(): PostMeta[] {
-  const fileNames = fs.readdirSync(postsDirectory);
-
-  const posts = fileNames
-    .filter((name) => name.endsWith(".md"))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.md$/, "");
-      const fullPath = path.join(postsDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, "utf-8");
-      const { data } = matter(fileContents);
-
-      return {
-        slug,
-        title: data.title,
-        date: data.date,
-        category: data.category,
-        tags: data.tags || [],
-        excerpt: data.excerpt || "",
-      };
-    });
+  const posts = getPostSlugs()
+    .map((slug) => parsePostMeta(slug))
+    .filter((post): post is PostMeta => post !== null);
 
   return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
-export function getPostBySlug(slug: string): Post | null {
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
+export function getPostBySlug(rawSlug: string): Post | null {
+  const slug = decodeURIComponent(rawSlug);
+  const contentPath = getPostContentPath(slug);
+  if (!contentPath) return null;
 
-  if (!fs.existsSync(fullPath)) return null;
-
-  const fileContents = fs.readFileSync(fullPath, "utf-8");
+  const fileContents = fs.readFileSync(contentPath, "utf-8");
   const { data, content } = matter(fileContents);
 
   return {

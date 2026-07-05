@@ -7,47 +7,48 @@ excerpt: "한 줄 요약을 여기에 작성"
 type: "ai-model"
 ---
 
-## 📄 논문 정보
+## 논문 정보
 
-| 항목 | 내용 |
-|------|------|
-| **제목** |  |
-| **저자** |  |
-| **학회/저널** |  |
-| **발행연도** |  |
-| **DOI** |  |
+**제목**  
+(논문 제목)
 
----
+**저자**  
+(저자)
 
-## 💡 왜 이 논문을 읽었나?
+**학회/저널**  
+(학회/저널)
 
+**발행연도**  
+(연도)
 
-
----
-
-## 📝 한 줄 요약
-
-
+**DOI**  
+(선택)
 
 ---
 
-## 📚 연구 배경 (Background)
+## 한 줄 요약
 
 
 
 ---
 
-## 🎯 연구 목적 (Objective)
+## 연구 배경 (Background)
 
 
 
 ---
 
-## 🏗️ 모델 구조 (Architecture)
+## 연구 목적 (Objective)
+
+
+
+---
+
+## 모델 구조 (Architecture)
 
 ### Overview
 
-<!-- 전체 아키텍처 그림 삽입 -->
+<!-- ![전체 아키텍처](./images/architecture.png) -->
 
 ### 핵심 구성 요소
 
@@ -55,7 +56,7 @@ type: "ai-model"
 
 ---
 
-## 🔧 학습 방법 (Training)
+## 학습 방법 (Training)
 
 ### Dataset
 
@@ -75,11 +76,11 @@ type: "ai-model"
 
 ---
 
-## 📊 결과 (Results)
+## 결과 (Results)
 
 ### 정량적 결과 (Quantitative)
 
-<!-- 성능 비교 표 삽입 -->
+<!-- ![성능 비교 결과](./images/quantitative.png) -->
 
 | Method | Metric 1 | Metric 2 | Metric 3 |
 |--------|----------|----------|----------|
@@ -87,7 +88,7 @@ type: "ai-model"
 
 ### 정성적 결과 (Qualitative)
 
-<!-- 시각적 비교 그림 삽입 -->
+<!-- ![시각적 비교](./images/qualitative.png) -->
 
 ### Ablation Study
 
@@ -95,24 +96,24 @@ type: "ai-model"
 
 ---
 
-## 🤔 Discussion
+## Discussion
 
 
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 
 
 ---
 
-## 🔗 관련 연구
+## 관련 연구
 
 - 
 - 
 
 ---
 
-## 💭 내가 느낀 점
+## 내가 느낀 점
 

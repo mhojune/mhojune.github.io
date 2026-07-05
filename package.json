@@ -3,20 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "copy-post-assets": "node scripts/copy-post-assets.js",
+    "predev": "npm run copy-post-assets",
     "dev": "next dev",
+    "prebuild": "npm run copy-post-assets",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "date-fns": "^4.4.0",
+    "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "next": "16.2.10",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-markdown": "^10.1.0",
     "rehype-highlight": "^7.0.2",
-    "remark-gfm": "^4.0.1"
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-unwrap-images": "^4.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

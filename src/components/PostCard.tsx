@@ -3,10 +3,16 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import type { PostMeta } from "@/lib/posts";
 
-export default function PostCard({ post }: { post: PostMeta }) {
+export default function PostCard({
+  post,
+  highlightedTags = [],
+}: {
+  post: PostMeta;
+  highlightedTags?: string[];
+}) {
   return (
-    <Link href={`/posts/${post.slug}`} className="group block">
-      <article className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+    <Link href={`/posts/${post.slug}`} className="group block h-full">
+      <article className="flex h-full min-h-[220px] flex-col rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
         <div className="mb-3 flex items-center gap-3 text-sm text-zinc-500">
           <time dateTime={post.date}>
             {format(new Date(post.date), "yyyy년 M월 d일", { locale: ko })}
@@ -17,19 +23,23 @@ export default function PostCard({ post }: { post: PostMeta }) {
           </span>
         </div>
 
-        <h2 className="mb-2 text-lg font-semibold text-zinc-900 transition-colors group-hover:text-blue-600">
+        <h2 className="mb-2 line-clamp-2 min-h-[3.5rem] text-lg font-semibold leading-snug text-zinc-900 transition-colors group-hover:text-blue-600">
           {post.title}
         </h2>
 
-        <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-zinc-600">
+        <p className="mb-4 line-clamp-2 min-h-[2.75rem] flex-1 text-sm leading-relaxed text-zinc-600">
           {post.excerpt}
         </p>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="mt-auto flex min-h-[1.5rem] flex-wrap gap-2">
           {post.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600"
+              className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                highlightedTags.includes(tag)
+                  ? "bg-blue-600 text-white"
+                  : "bg-blue-50 text-blue-600"
+              }`}
             >
               #{tag}
             </span>
