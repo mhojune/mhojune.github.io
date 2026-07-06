@@ -5,12 +5,13 @@ import { ko } from "date-fns/locale";
 import PostContent from "@/components/PostContent";
 import TableOfContents from "@/components/TableOfContents";
 import { extractHeadings } from "@/lib/headings";
+import { getCategoryUrl, getTagUrl } from "@/lib/urls";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
-  return posts.map((post) => ({ slug: encodeURIComponent(post.slug) }));
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
@@ -48,7 +49,7 @@ export default async function PostPage({
             </time>
             <span className="text-zinc-300">·</span>
             <Link
-              href={`/categories/${encodeURIComponent(post.category)}`}
+              href={getCategoryUrl(post.category)}
               className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 transition hover:bg-zinc-200"
             >
               {post.category}
@@ -63,7 +64,7 @@ export default async function PostPage({
             {post.tags.map((tag) => (
               <Link
                 key={tag}
-                href={`/tags/${encodeURIComponent(tag)}`}
+                href={getTagUrl(tag)}
                 className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600 transition hover:bg-blue-100"
               >
                 #{tag}

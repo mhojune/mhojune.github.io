@@ -2,6 +2,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import type { PostMeta } from "@/lib/posts";
+import { getPostUrl } from "@/lib/urls";
 
 export default function PostCard({
   post,
@@ -11,7 +12,7 @@ export default function PostCard({
   highlightedTags?: string[];
 }) {
   return (
-    <Link href={`/posts/${post.slug}`} className="group block h-full">
+    <Link href={getPostUrl(post.slug)} className="group block h-full">
       <article className="flex h-full min-h-[220px] flex-col rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
         <div className="mb-3 flex items-center gap-3 text-sm text-zinc-500">
           <time dateTime={post.date}>

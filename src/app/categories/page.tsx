@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getCategoryUrl } from "@/lib/urls";
 import { getAllCategories, getPostsByCategory } from "@/lib/posts";
 
 export const metadata = {
@@ -18,7 +19,7 @@ export default function CategoriesPage() {
           return (
             <Link
               key={category}
-              href={`/categories/${encodeURIComponent(category)}`}
+              href={getCategoryUrl(category)}
               className="group rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
             >
               <h2 className="mb-1 text-lg font-semibold text-zinc-900 group-hover:text-blue-600">

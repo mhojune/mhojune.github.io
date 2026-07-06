@@ -12,7 +12,7 @@ src/content/posts/
 ```
 
 1. `templates/`에서 템플릿 복사
-2. `posts/글-slug/` 폴더 생성
+2. `posts/글-slug/` 폴더 생성 (**영문, 숫자, 하이픈만** — 공백 금지)
 3. `index.md`에 내용 작성
 4. 이미지는 같은 폴더에 넣고 Markdown에서 상대 경로로 참조
 
