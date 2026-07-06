@@ -178,8 +178,13 @@ images: { unoptimized: true }
 
 1. `main` 브랜치 push → GitHub Actions 실행
 2. `npm run build` → `out/` 생성
-3. `peaceiris/actions-gh-pages` → `gh-pages` 브랜치에 배포
-4. GitHub Pages 설정: **Deploy from branch** → `gh-pages` / `/ (root)`
+3. `upload-pages-artifact` → `deploy-pages`로 배포
+
+**GitHub 설정 (필수):**
+
+> Settings → Pages → Build and deployment → Source: **GitHub Actions**
+
+`Deploy from a branch (gh-pages)`와 **동시에 켜두지 마세요.** 하나만 사용합니다.
 
 ---
 
